@@ -50,8 +50,9 @@ def cm_beauty(request):
 def search(request):
     dest = dict()
     if request.method=='POST':
+        print('post')
         received_json_data=json.loads(request.body)
-        # print(str(received_json_data['movie']))
+        print(received_json_data)
         target = str(received_json_data['movie'])
         mall_dict = dict()
         #南紡搜尋
@@ -61,7 +62,8 @@ def search(request):
                 # print(movie)
                 tmp_list = movie[movie.index(target):]
                 # print(tmp_list.index('###'))
-                tmp_list = tmp_list[: tmp_list.index('###')]
+                if '###' in tmp_list:
+                    tmp_list = tmp_list[: tmp_list.index('###')]
                 # print(tmp_list)
                 mall_dict[day] = tmp_list
         # print(tmp_dict)
@@ -73,7 +75,9 @@ def search(request):
             tmp_list = list()
             if target in movie:
                 tmp_list = movie[movie.index(target):]
-                tmp_list = tmp_list[: tmp_list.index('###')]
+                if '###' in tmp_list:
+                    tmp_list = tmp_list[: tmp_list.index('###')]
+
                 fe_dict[day] = tmp_list
         if bool(fe_dict) != False:
             dest['FE'] = fe_dict
@@ -83,7 +87,8 @@ def search(request):
             tmp_list = list()
             if target in movie:
                 tmp_list = movie[movie.index(target):]
-                tmp_list = tmp_list[: tmp_list.index('###')]
+                if '###' in tmp_list:
+                    tmp_list = tmp_list[: tmp_list.index('###')]
                 ambassador_dict[day] = tmp_list
         if bool(ambassador_dict) != False:
             dest['Ambassador'] = ambassador_dict
@@ -93,7 +98,8 @@ def search(request):
             tmp_list = list()
             if target in movie:
                 tmp_list = movie[movie.index(target):]
-                tmp_list = tmp_list[: tmp_list.index('###')]
+                if '###' in tmp_list:
+                    tmp_list = tmp_list[: tmp_list.index('###')]
                 nantai_dict[day] = tmp_list
         if bool(nantai_dict) != False:
             dest['Nantai'] = nantai_dict
@@ -103,7 +109,8 @@ def search(request):
             tmp_list = list()
             if target in movie:
                 tmp_list = movie[movie.index(target):]
-                tmp_list = tmp_list[: tmp_list.index('###')]
+                if '###' in tmp_list:
+                    tmp_list = tmp_list[: tmp_list.index('###')]
                 today_dict[day] = tmp_list
         if bool(today_dict) != False:
             dest['Today'] = today_dict
@@ -113,12 +120,13 @@ def search(request):
             tmp_list = list()
             if target in movie:
                 tmp_list = movie[movie.index(target):]
-                tmp_list = tmp_list[: tmp_list.index('###')]
+                if '###' in tmp_list:
+                    tmp_list = tmp_list[: tmp_list.index('###')]
                 beauty_dict[day] = tmp_list
         if bool(beauty_dict) != False:
             dest['beauty'] = beauty_dict
 
-        # print(dest)
+        print(dest)
         
 
 
