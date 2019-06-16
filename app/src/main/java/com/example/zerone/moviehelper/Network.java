@@ -24,7 +24,7 @@ import java.net.URLEncoder;
 
 public class Network {
 
-    private static final String Server_IP="http://192.168.0.3:8000/search_movie/";
+    private static final String Server_IP="http://192.168.0.102:8000/search_movie/";
 
 
     //movie 為輸入的電影
@@ -53,7 +53,7 @@ public class Network {
 
             JSONObject jsonParam =new JSONObject();
             try {
-                jsonParam.put("movie", "MIB星際戰警：跨國行動");
+                jsonParam.put("movie", movie);
             }catch (JSONException e){
                 e.printStackTrace();
             }
@@ -79,12 +79,12 @@ public class Network {
                 response.append('\r');
             }
             reader.close();
-
+            Theatres = response.toString();
             Log.i("MSG" , response.toString());
 
 //            Log.i("STATUS", String.valueOf(urlConnection.getResponseCode()));
 //            Log.i("MSG" , urlConnection.getResponseMessage());
-            urlConnection.disconnect();
+//            urlConnection.disconnect();
 //            try {
 //                jsonParam.put("movie", "MIB星際戰警：跨國行動");
 //            }catch (JSONException e){

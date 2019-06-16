@@ -13,7 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new myAdapter(this,mTheatreData);
         mRecyclerView.setAdapter(mAdapter);
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        movieList = new String[] {"Ola的家", "魔獸世界","星海爭霸2","凱蘭迪亞傳奇","Ola Query簡介","蟲族秒滅心法","Ola MapGuide教學","Ola jQuery教學","Ola Android教學"};
+        movieList = new String[] {"MIB星際戰警：跨國行動", "地獄怪客:血后的崛起(輔15)","哥吉拉II怪獸之王Godzilla: King of the Monsters","凱蘭迪亞傳奇","樂高玩電影2(護)","蜘蛛人:新宇宙(普)","(數位版)哥吉拉II怪獸之王"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line,movieList);
         //https://developer.android.com/reference/android/R.layout.html#simple_spinner_dropdown_item  there are a lot of different type
@@ -60,10 +64,19 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
 
             super.onPostExecute(s);
-            Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
-            //在此parse訊息
-
+//            Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
             ArrayList<String> a =new ArrayList<String>(); //把找到的電影院add進ArrayList
+            //在此parse訊息
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                Iterator<String> keys = jsonObject.keys();
+                while (keys.hasNext()){
+                    a.add(keys.next());
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
             initializeData(a);
         }
 
@@ -76,10 +89,11 @@ public class MainActivity extends AppCompatActivity {
     private void initializeData(ArrayList<String> theatres) {
         String[] nameList = getResources().getStringArray(R.array.theatre);
         String[] addressList = getResources().getStringArray(R.array.address);
+        String[] passWord = {"FE","Mall","Ambassador","Nantai","Today","beauty"};
         TypedArray iamgeList = getResources().obtainTypedArray(R.array.images);
         mTheatreData.clear();
         for(int i = 0;i<nameList.length;++i){
-            if(theatres.contains(nameList[i]))
+            if(theatres.contains(passWord[i]))
                 mTheatreData.add(new Theatre(nameList[i],addressList[i],
                         iamgeList.getResourceId(i,0)));
 
