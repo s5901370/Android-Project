@@ -1,6 +1,7 @@
 package com.example.zerone.moviehelper;
 
 import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Theatre> mTheatreData;
     private myAdapter mAdapter;
     private String[] movieList; // used to store movie name
+    private String[] findList;
     private String choosedMovie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         mTheatreData = new ArrayList<>();
         mAdapter = new myAdapter(this,mTheatreData);
         mRecyclerView.setAdapter(mAdapter);
-        initializeData();
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         movieList = new String[] {"Ola的家", "魔獸世界","星海爭霸2","凱蘭迪亞傳奇","Ola Query簡介","蟲族秒滅心法","Ola MapGuide教學","Ola jQuery教學","Ola Android教學"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "你選的是" + movieList[position],
                         Toast.LENGTH_SHORT).show();
                 choosedMovie = movieList[position];
+                new FetchMovie().execute(choosedMovie);
             }
 
             @Override
@@ -52,14 +54,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeData() {
+    public class FetchMovie extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+            Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
+            //在此parse訊息
+
+            ArrayList<String> a =new ArrayList<String>(); //把找到的電影院add進ArrayList
+            initializeData(a);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return Network.getTheatre(strings[0]);
+        }
+    }
+
+    private void initializeData(ArrayList<String> theatres) {
         String[] nameList = getResources().getStringArray(R.array.theatre);
         String[] addressList = getResources().getStringArray(R.array.address);
         TypedArray iamgeList = getResources().obtainTypedArray(R.array.images);
         mTheatreData.clear();
         for(int i = 0;i<nameList.length;++i){
-            mTheatreData.add(new Theatre(nameList[i],addressList[i],
-                    iamgeList.getResourceId(i,0)));
+            if(theatres.contains(nameList[i]))
+                mTheatreData.add(new Theatre(nameList[i],addressList[i],
+                        iamgeList.getResourceId(i,0)));
 
         }
         iamgeList.recycle();
