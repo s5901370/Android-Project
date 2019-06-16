@@ -57,6 +57,7 @@ def Mall():
 
     # print(mlist)
     j = arrangement(mlist)
+    
     return j
 
 def FE():
@@ -142,5 +143,5 @@ def arrangement(movie):
     return j
             
 
-# if __name__ == "__main__":
-#     scratch()
+if __name__ == "__main__":
+    Mall()

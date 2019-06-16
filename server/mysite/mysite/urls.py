@@ -27,4 +27,5 @@ urlpatterns = [
     path('Nantai/', nantai),
     path('Cmmovies_today/', cm_today),
     path('Cmmovies_beauty/', cm_beauty),
+    path('search_movie/', search),
 ]
