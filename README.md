@@ -4,8 +4,8 @@
 Platform: Android Studio
 
 ## Backend:
-Platform: Python3 Virtual environment
-Tool:Django
+Platform: Python3 Virtual environment  
+Tool:Django  
 Install use model: 
 ```
 pip install -r requirements.txt
