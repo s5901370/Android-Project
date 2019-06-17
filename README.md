@@ -10,7 +10,7 @@ Install use model:
 ```
 pip install -r requirements.txt
 ```
-Before runing server, please check server and phone on the same domain.  
+Before running server, please check server and phone on the same domain.  
 Run server: 
 ```
 cd server\mysite
