@@ -93,6 +93,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
             detailIntent.putExtra("name", current.getName());
             detailIntent.putExtra("image_resource",
                     current.getImageResource());
+            detailIntent.putStringArrayListExtra("dates",current.getDate());
             mContext.startActivity(detailIntent);
         }
     }

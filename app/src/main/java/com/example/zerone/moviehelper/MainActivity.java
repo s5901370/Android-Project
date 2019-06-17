@@ -66,18 +66,22 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 //            Toast.makeText(MainActivity.this,s,Toast.LENGTH_LONG).show();
             ArrayList<String> a =new ArrayList<String>(); //把找到的電影院add進ArrayList
+            ArrayList<Iterator<String>> dates = new ArrayList<>();
             //在此parse訊息
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 Iterator<String> keys = jsonObject.keys();
                 while (keys.hasNext()){
-                    a.add(keys.next());
+                    String key = keys.next();
+                    a.add(key);
+                    JSONObject j = jsonObject.getJSONObject(key);
+                    dates.add(j.keys());
                 }
             }catch (JSONException e){
                 e.printStackTrace();
             }
 
-            initializeData(a);
+            initializeData(a,dates);
         }
 
         @Override
@@ -86,16 +90,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeData(ArrayList<String> theatres) {
+    private void initializeData(ArrayList<String> theatres, ArrayList<Iterator<String>> dates) {
         String[] nameList = getResources().getStringArray(R.array.theatre);
         String[] addressList = getResources().getStringArray(R.array.address);
         String[] passWord = {"FE","Mall","Ambassador","Nantai","Today","beauty"};
         TypedArray iamgeList = getResources().obtainTypedArray(R.array.images);
         mTheatreData.clear();
+        int index = 0;
         for(int i = 0;i<nameList.length;++i){
-            if(theatres.contains(passWord[i]))
-                mTheatreData.add(new Theatre(nameList[i],addressList[i],
-                        iamgeList.getResourceId(i,0)));
+            if(theatres.contains(passWord[i])) {
+                index = theatres.indexOf(passWord[i]);
+                mTheatreData.add(new Theatre(nameList[i], addressList[i],
+                        iamgeList.getResourceId(i, 0), dates.get(index)));
+            }
 
         }
         iamgeList.recycle();

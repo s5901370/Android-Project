@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DetailActivity extends AppCompatActivity {
@@ -31,12 +32,15 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ImageView Image = findViewById(R.id.theatreImage);
         TextView Name = findViewById(R.id.name);
+        ArrayList<String> dates = new ArrayList<>();
         mSession = findViewById(R.id.session);
 
         Name.setText(getIntent().getStringExtra("name"));
         Glide.with(this).load(getIntent().getIntExtra("image_resource",0))
                 .into(Image);
         RadioGroup rg = findViewById(R.id.group);
+        RadioButton radioButton = new RadioButton(this);
+
         initial();
 
 
