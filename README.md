@@ -11,6 +11,7 @@ Install use model:
 pip install -r requirements.txt
 ```
 Before running server, please check server and phone on the same domain.  
+And change server_ip on Network class based on your ip address.  
 Run server: 
 ```
 cd server\mysite
